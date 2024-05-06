@@ -11,11 +11,14 @@ interface Post {
 const AddPost = ({ postLength }: { postLength: number }) => {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
-  const mutation = useMutation({
-    mutationFn: async (newPost) => {
+  const { mutate, isPending, isSuccess } = useMutation({
+    mutationFn: async (newPost: Post) => {
       const res = await fetch("https://jsonplaceholder.typicode.com/posts", {
         method: "POST",
         body: JSON.stringify(newPost),
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
 
       const value = await res.json();
@@ -34,7 +37,7 @@ const AddPost = ({ postLength }: { postLength: number }) => {
       body: body,
     };
 
-    mutation.mutate();
+    mutate(newPost);
   };
 
   const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -58,6 +61,8 @@ const AddPost = ({ postLength }: { postLength: number }) => {
         required
         onChange={handleBodyChange}
       ></textarea>
+      {isPending && <p>Adding...</p>}
+      {isSuccess && <p>Post Added</p>}
       <button type="submit">Add Post</button>
     </form>
   );

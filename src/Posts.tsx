@@ -12,10 +12,8 @@ const Posts = ({ posts }: { posts: Post[] }) => {
       <ul>
         {posts.map((post) => (
           <li key={post.id}>
-            <p>id: {post.id}</p>
-            <p>userId: {post.userId}</p>
-            <p>title: {post.title}</p>
-            <p>body: {post.body}</p>
+            <p>TITLE: {post.title}</p>
+            <p>BODY: {post.body}</p>
           </li>
         ))}
       </ul>
